@@ -25,7 +25,7 @@ public class ReadFile {
 		return textReader;
 	}
 	public static void main(String[] args) throws IOException{
-		ReadFile rf = new ReadFile("C:\\Users\\james\\Desktop\\DEM.txt");
+		ReadFile rf = new ReadFile("Files\\DEM.txt");
 		BufferedReader d = rf.openFile();
 
 		String ds="";
