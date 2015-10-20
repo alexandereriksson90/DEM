@@ -1,9 +1,9 @@
 package fileimport;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
 
 public class ReadFile {
 	private String path;
@@ -13,19 +13,14 @@ public class ReadFile {
 	public ReadFile(String file){
 		path = file;
 	}
-	@SuppressWarnings("resource")
-	public BufferedReader openFile () {
+
+	public BufferedReader openFile () throws IOException {
 		FileReader fr;
-		String test = "";
 		BufferedReader textReader = null;
-		try {
+
 			fr = new FileReader(path);
 			 textReader = new BufferedReader(fr);
-			
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
+
 
 		return textReader;
 	}
@@ -33,11 +28,23 @@ public class ReadFile {
 		ReadFile rf = new ReadFile("C:\\Users\\james\\Desktop\\DEM.txt");
 		BufferedReader d = rf.openFile();
 
-		System.out.println(d.readLine());
-		System.out.println(d.readLine());
-		System.out.println(d.readLine());
-		System.out.println(d.readLine());
-		System.out.println(d.readLine());
+		String ds="";
+		for(int i =0; i<7; i++){
+			d.readLine();
+			if(i==6){
+				ds =d.readLine();
+			}
+		}
+		ds = ds.replaceAll("   ", " ");
+		System.out.println(ds);
+//		String[] st = ds.split("   ");
+//		int k = st.length;
+//		for (int i=0; i<k; i++){
+//			System.out.println(i);
+//		System.out.println(st[i]);
+//		}
+		
+		
 				
 	}
 }
