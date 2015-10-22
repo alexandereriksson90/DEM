@@ -3,7 +3,7 @@ package fileimport;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class heightValues {
+public class ArcgridData {
 BufferedReader reader;
 int nrows;
 int ncols;
@@ -11,11 +11,11 @@ double cellsize;
 double xllcenter;
 double yllcenter;
 double nodata_value;
-String[][] height;
-	public heightValues(BufferedReader br) throws IOException{
+Double[][] height;
+	public ArcgridData(BufferedReader br) throws IOException{
 		this.reader = br;
 		String[] temp;
-		String[]d;
+		
 		for(int i=0; i<6; i++){
 
 			 temp =reader.readLine().split(" ");
@@ -41,20 +41,20 @@ String[][] height;
 		this.height = getHeight();
 	}
 	
-	private String[][] getHeight() throws IOException{
-		String[][] height = new String[getNrows()][getNcols()];
+	private Double[][] getHeight() throws IOException{
+		Double[][] height = new Double[getNrows()][getNcols()];
 		for (int i=0; i<getNrows(); i++){
 			String temp[] = reader.readLine().split("   ");
 			
 			for(int k =0; k<=getNcols()-1; k++){
 				
-				height[i][k]= temp[k+1];
+				height[i][k]= Double.parseDouble(temp[k+1]);
 				
 			}
 		}
 		return height;
 	}
-	public String[][] getHeightValues(){
+	public Double[][] getHeightValues(){
 		return height;
 	}
 	public int getNrows(){
@@ -76,15 +76,5 @@ String[][] height;
 		return nodata_value;
 	}
 
-	public static void main(String[] args) throws IOException {
-		ReadFile rf = new ReadFile("C:\\Users\\james\\Desktop\\DEM.txt");
-		heightValues hv = new heightValues(rf.openFile());
-	
-		String[][] test = hv.getHeightValues();
-		System.out.println(test[1][0]);
-		System.out.println(test[1][1]);
-		System.out.println(test[1][314]);
-		System.out.println(test[1][315]);
-	}
 
 }
