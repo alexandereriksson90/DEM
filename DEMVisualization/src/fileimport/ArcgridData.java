@@ -11,6 +11,8 @@ double cellsize;
 double xllcenter;
 double yllcenter;
 double nodata_value;
+double minh = Double.MAX_VALUE;
+double maxh = Double.MIN_VALUE;;
 Double[][] height;
 	public ArcgridData(BufferedReader br) throws IOException{
 		this.reader = br;
@@ -49,16 +51,33 @@ Double[][] height;
 			for(int k =0; k<=getNcols()-1; k++){
 				
 				height[i][k]= Double.parseDouble(temp[k+1]);
-				
+				isMin(height[i][k]);
+				isMax(height[i][k]);
 			}
 		}
 		return height;
+	}
+	private void isMin(double min){
+		if(min<minh){
+			minh =	min;
+		}
+	}
+	private void isMax(double max){
+		if(max>maxh){
+			maxh = max;
+		}
 	}
 	public Double[][] getHeightValues(){
 		return height;
 	}
 	public int getNrows(){
 		return nrows;
+	}
+	public double getMinHeight(){
+		return minh;
+	}
+	public double getMaxHeight(){
+		return maxh;
 	}
 	public int getNcols(){
 		return ncols;
