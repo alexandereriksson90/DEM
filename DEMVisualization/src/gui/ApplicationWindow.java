@@ -74,7 +74,7 @@ public class ApplicationWindow extends JFrame{
 		ArcgridData arc = null;
 		try {
 			arc = new ArcgridData(rf.openFile());
-		} catch (IOException | ArrayIndexOutOfBoundsException e) {
+		} catch (IOException | IndexOutOfBoundsException e) {
 			throw new WrongFileException("Du valde inte en arcgrid fil, Försök igen!");
 		}
 		ArcgridImage image = new ArcgridImage(arc);
