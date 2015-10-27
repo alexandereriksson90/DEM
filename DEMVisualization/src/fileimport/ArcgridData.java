@@ -2,6 +2,8 @@ package fileimport;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArcgridData {
 BufferedReader reader;
@@ -16,28 +18,27 @@ double maxh = Double.MIN_VALUE;;
 Double[][] height;
 	public ArcgridData(BufferedReader br) throws IOException{
 		this.reader = br;
-		String[] temp;
+		
 		
 		for(int i=0; i<6; i++){
 
-			 temp =reader.readLine().split(" ");
 			if(i==0){
-				this.ncols =Integer.parseInt(temp[1]);
+				this.ncols =Integer.parseInt(getLine(reader.readLine()).get(1));
 			}
 			if(i==1){
-				this.nrows =Integer.parseInt(temp[1]);
+				this.nrows =Integer.parseInt(getLine(reader.readLine()).get(1));
 			}
 			if(i==2){
-				this.xllcenter =Double.parseDouble((temp[1]));
+				this.xllcenter =Double.parseDouble(getLine(reader.readLine()).get(1));
 			}
 			if(i==3){
-				this.yllcenter =Double.parseDouble((temp[1]));
+				this.yllcenter =Double.parseDouble(getLine(reader.readLine()).get(1));
 			}
 			if(i==4){
-				this.cellsize =Double.parseDouble((temp[2]));
+				this.cellsize =Double.parseDouble(getLine(reader.readLine()).get(1));
 			}
 			if(i==5){
-				this.nodata_value =Double.parseDouble((temp[1]));
+				this.nodata_value =Double.parseDouble(getLine(reader.readLine()).get(1));
 			}
 		}
 		this.height = getHeight();
@@ -46,11 +47,11 @@ Double[][] height;
 	private Double[][] getHeight() throws IOException{
 		Double[][] height = new Double[getNrows()][getNcols()];
 		for (int i=0; i<getNrows(); i++){
-			String temp[] = reader.readLine().split("   ");
+			List<String> list = getLine(reader.readLine());
 			
-			for(int k =0; k<=getNcols()-1; k++){
+			for(int k =0; k<getNcols(); k++){
 				
-				height[i][k]= Double.parseDouble(temp[k+1]);
+				height[i][k]= Double.parseDouble(list.get(k));
 				isMin(height[i][k]);
 				isMax(height[i][k]);
 			}
@@ -58,12 +59,12 @@ Double[][] height;
 		return height;
 	}
 	private void isMin(double min){
-		if(min<minh){
+		if(min<minh && min!=nodata_value){
 			minh =	min;
 		}
 	}
 	private void isMax(double max){
-		if(max>maxh){
+		if(max>maxh && max!=nodata_value){
 			maxh = max;
 		}
 	}
@@ -93,6 +94,33 @@ Double[][] height;
 	}
 	public double getNodatavalue(){
 		return nodata_value;
+	}
+	private List<String> getLine(String line) {
+		String st = line;
+		String temp = "";
+		int nr;
+		List<String> listr = new ArrayList<String>();
+		for (int i = 0; i < st.length(); i++) {
+			nr = i;
+			temp = "";
+
+			while (st.charAt(nr) != ' ') {
+				temp = temp + st.charAt(nr);
+
+				nr++;
+				if (nr == st.length()) {
+					break;
+				}
+
+			}
+			if (temp != "") {
+				listr.add(temp);
+			}
+
+			i = nr;
+		}
+
+		return listr;
 	}
 
 
