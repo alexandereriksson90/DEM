@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -18,7 +19,7 @@ import fileimport.ArcgridData;
 import fileimport.ReadFile;
 
 public class ApplicationWindow extends JFrame{
-
+	
 	/**
 	 * 
 	 */
@@ -54,9 +55,8 @@ public class ApplicationWindow extends JFrame{
 				               f = chooser.getSelectedFile();
 				              try {
 								createImage(f.getAbsolutePath());
-							} catch (IOException e) {
-								
-								e.printStackTrace();
+							} catch (IOException | WrongFileException e) {
+								JOptionPane.showMessageDialog(null, e.getMessage(), "Arcgrid raster", JOptionPane.ERROR_MESSAGE);
 							}
 				           }
 						
@@ -69,9 +69,14 @@ public class ApplicationWindow extends JFrame{
 		menu.add(open);
 		return menu;
 	}
-	private void createImage(String path) throws IOException{
+	private void createImage(String path) throws IOException, WrongFileException{
 		ReadFile rf = new ReadFile(path);
-		ArcgridData arc = new ArcgridData(rf.openFile());
+		ArcgridData arc = null;
+		try {
+			arc = new ArcgridData(rf.openFile());
+		} catch (IOException | ArrayIndexOutOfBoundsException e) {
+			throw new WrongFileException("Du valde inte en arcgrid fil, Försök igen!");
+		}
 		ArcgridImage image = new ArcgridImage(arc);
 		add(image);
 		
