@@ -1,11 +1,10 @@
 package gui;
-
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+
 
 import javax.swing.JPanel;
 
@@ -20,13 +19,34 @@ public class ArcgridImage extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	ArcgridData arcgrid;
-	Transpose matrix;
+	int wa;
+	int ha;
+	BufferedImage rasterImage;
 	public ArcgridImage(ArcgridData arcgrid){
 		this.arcgrid = arcgrid;
-		this.matrix = new Transpose(arcgrid);
+
 		
 	}
-	public void paintComponent(Graphics g){
+	protected void paintComponent(Graphics g){
+
+		BufferedImage image = createPicture();
+//		int w = image.getWidth();
+//		int h = image.getHeight();
+//		BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+//		AffineTransform at = new AffineTransform();
+//		at.scale(2.0, 2.0);
+//		AffineTransformOp scaleOp = 
+//		   new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+//		after = scaleOp.filter(image, after);
+
+	    g.drawImage(image, 0, 0, null);
+
+	    
+
+	    
+	}
+	public BufferedImage createPicture(){
+		Transpose matrix = new Transpose(arcgrid);
 		final BufferedImage image;
 		
 		 int[] iArray = { 0, 0, 0, 255 };
@@ -48,22 +68,11 @@ public class ArcgridImage extends JPanel {
 		        	
 	        	
 	        }
+	        
 	        }
-		
-		int w = image.getWidth();
-		int h = image.getHeight();
-		BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		AffineTransform at = new AffineTransform();
-		at.scale(2.0, 2.0);
-		AffineTransformOp scaleOp = 
-		   new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-		after = scaleOp.filter(image, after);
-		
-		
-		
-	    g.drawImage(after, 0, 0, null);
-
-	    
+		return image;
 	}
+
 	
+
 }

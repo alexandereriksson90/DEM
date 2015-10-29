@@ -23,8 +23,10 @@ public class ApplicationWindow extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	ArcgridData gridData;
+	
 	public ApplicationWindow(){
-		setSize(800, 800);
+		setSize(800, 600);
 		setJMenuBar(menuBar());
 		setTitle("Arcgrid raster");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -65,16 +67,52 @@ public class ApplicationWindow extends JFrame{
 				}
 				
 				);
+		JMenuItem transparent = new JMenuItem("Choose image");
+		transparent.addActionListener(
+				new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						JFileChooser chooser = new JFileChooser();
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("GIF FILES", "GIF", "gif");
+						chooser.setFileFilter(filter);
+						File f;
+						 Component frame = null;
+						chooser.setCurrentDirectory(new java.io.File("."));
+						   chooser.setSelectedFile(new File(""));
+				           chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				           if (chooser.showOpenDialog(frame) == JFileChooser.OPEN_DIALOG) {
+				               f = chooser.getSelectedFile();
+				              openTransparentImage(f.getAbsolutePath());
+				           }
+						
+						
+					}
+					
+				}
+				
+				);
+	
 		open.add(menuItem);
+		open.add(transparent);
 		menu.add(open);
 		return menu;
 	}
 	private void createImage(String path) throws IOException{
+		getContentPane().removeAll();
 		ReadFile rf = new ReadFile(path);
 		ArcgridData arc = new ArcgridData(rf.openFile());
 		ArcgridImage image = new ArcgridImage(arc);
+		gridData = arc;
 		add(image);
+
+		revalidate();
+	}
+	private void openTransparentImage(String path){
+		getContentPane().removeAll();
+		TransparentImage ti = new TransparentImage(path,gridData);
 		
+		add(ti);
 		revalidate();
 	}
 
