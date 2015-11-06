@@ -38,7 +38,7 @@ public class ApplicationWindow extends JFrame{
 		JMenuBar menu = new JMenuBar();
 		JMenu open = new JMenu("Open");
 
-		JMenuItem menuItem = new JMenuItem("Choose file...");
+		JMenuItem menuItem = new JMenuItem("DEM File");
 		menuItem.addActionListener(
 				new ActionListener(){
 
@@ -67,7 +67,7 @@ public class ApplicationWindow extends JFrame{
 				}
 				
 				);
-		JMenuItem transparent = new JMenuItem("Choose image");
+		JMenuItem transparent = new JMenuItem("Image");
 		transparent.addActionListener(
 				new ActionListener(){
 
