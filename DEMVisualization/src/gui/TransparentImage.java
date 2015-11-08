@@ -14,9 +14,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import calculations.ColorScaler;
-import calculations.Transpose;
+import calculations.TransposeMatrix;
 import fileimport.ArcgridData;
-
+/**
+ * Skapar en Jpanel med DEM bilden och en Gif bild
+ * @author ndi13jed
+ * @author nbt12aen
+ *
+ */
 public class TransparentImage extends JPanel {
 
 	/**
@@ -28,7 +33,11 @@ public class TransparentImage extends JPanel {
 	ArcgridData arcgrid;
 	int imageWidth;
 	int imageHeight;
-
+/**
+ * Skapar en ny TransparentImage
+ * @param path Bildens sökväg
+ * @param arcgrid DEM data
+ */
 	public TransparentImage(String path, ArcgridData arcgrid) {
 		this.image = new ImageIcon(path);
 		this.imageHeight = image.getIconHeight();
@@ -36,7 +45,9 @@ public class TransparentImage extends JPanel {
 		this.im = image.getImage();
 		this.arcgrid = arcgrid;
 	}
-
+/**
+ * Ritar upp Bilden och DEM bilden i jpanel
+ */
 	protected void paintComponent(Graphics g) {
 		BufferedImage arcgridImage = createPicture();
 		Image resizeB = resize(arcgridImage, arcgridImage.getWidth() * 2,
@@ -53,7 +64,13 @@ public class TransparentImage extends JPanel {
 		g2d.drawImage(resized, 0, 0, null);
 
 	}
-
+/**
+ * Skalar om en bilds dimensioner till de nya 
+ * @param imgSize bildens dimensioner
+ * @param boundary de nya dimensionerna
+ * @return
+ * --- http://stackoverflow.com/questions/10245220/java-image-resize-maintain-aspect-ratio
+ */
 	private Dimension getScaled(Dimension imgSize, Dimension boundary) {
 		int original_width = imgSize.width;
 		int original_height = imgSize.height;
@@ -74,7 +91,14 @@ public class TransparentImage extends JPanel {
 
 		return new Dimension(new_width, new_height);
 	}
-
+/**
+ * Omvandlar en bild till andra dimensioner
+ * @param originalImage 
+ * @param width 
+ * @param height
+ * @return 
+ * --- http://stackoverflow.com/questions/3967731/how-to-improve-the-performance-of-g-drawimage-method-for-resizing-images/11371387#11371387
+ */
 	private Image resize(Image originalImage, int width, int height) {
 		int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -93,9 +117,12 @@ public class TransparentImage extends JPanel {
 
 		return resizedImage;
 	}
-
-	public BufferedImage createPicture() {
-		Transpose matrix = new Transpose(arcgrid);
+	/**
+	 * Skapar DEM bilden med en BufferedImage 
+	 * @return	DEM Bilden
+	 */
+	private BufferedImage createPicture() {
+		TransposeMatrix matrix = new TransposeMatrix(arcgrid);
 		final BufferedImage image;
 
 		int[] iArray = { 0, 0, 0, 255 };

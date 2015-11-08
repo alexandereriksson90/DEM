@@ -9,35 +9,37 @@ import java.awt.image.WritableRaster;
 import javax.swing.JPanel;
 
 import calculations.ColorScaler;
-import calculations.Transpose;
+import calculations.TransposeMatrix;
 import fileimport.ArcgridData;
-
+/**
+ * Skapar Jpanel med en DEM bild
+ * @author ndi13jed	
+ * @author nbt12aen
+ *
+ */
 public class ArcgridImage extends JPanel {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	ArcgridData arcgrid;
 	int wa;
 	int ha;
 	BufferedImage rasterImage;
+	/**
+	 * Skapar en ny ArcgridImage
+	 * @param arcgrid - arcgrid data
+	 */
 	public ArcgridImage(ArcgridData arcgrid){
 		this.arcgrid = arcgrid;
 
 		
 	}
+	/** 
+	 * Ritar ut bilden i Jpanel
+	 */
 	protected void paintComponent(Graphics g){
 
 		BufferedImage image = createPicture();
-//		int w = image.getWidth();
-//		int h = image.getHeight();
-//		BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-//		AffineTransform at = new AffineTransform();
-//		at.scale(2.0, 2.0);
-//		AffineTransformOp scaleOp = 
-//		   new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-//		after = scaleOp.filter(image, after);
 
 	    g.drawImage(image, 0, 0, null);
 
@@ -45,8 +47,12 @@ public class ArcgridImage extends JPanel {
 
 	    
 	}
+	/**
+	 * Skapar DEM bilden med en BufferedImage 
+	 * @return	DEM Bilden
+	 */
 	public BufferedImage createPicture(){
-		Transpose matrix = new Transpose(arcgrid);
+		TransposeMatrix matrix = new TransposeMatrix(arcgrid);
 		final BufferedImage image;
 		
 		 int[] iArray = { 0, 0, 0, 255 };
